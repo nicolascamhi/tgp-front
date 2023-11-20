@@ -12,6 +12,7 @@ function CrearReunion() {
   const [tamanoEmpresa, setTamanoEmpresa] = useState(null);
   const [correoContacto, setCorreoContacto] = useState('');
   const [correoValido, setCorreoValido] = useState(true);
+  const [inputTouched, setInputTouched] = useState(false);
 
   const validarCorreo = (correo) => {
     const regexCorreo = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
@@ -21,6 +22,7 @@ function CrearReunion() {
   const handleCorreoChange = (e) => {
     const correo = e.target.value;
     setCorreoContacto(correo);
+    setInputTouched(true);
     setCorreoValido(validarCorreo(correo));
   };
 
@@ -33,7 +35,7 @@ function CrearReunion() {
         fechaReunion,
         cliente,
         tamanoEmpresa,
-        correoContacto, // Incluir el correo de contacto en los datos a enviar
+        correoContacto,
         // Agrega más atributos aquí
       });
       // Manejar la respuesta o redirigir
@@ -105,8 +107,11 @@ function CrearReunion() {
             id="correoContacto"
             value={correoContacto}
             onChange={handleCorreoChange}
-            className={`form-input ${correoValido ? '' : 'invalid'}`}
+            className={`form-input ${inputTouched && !correoValido ? 'invalid' : ''}`}
           />
+          {inputTouched && !correoValido && (
+            <p className="text-red-300">El correo ingresado no es válido.</p>
+          )}
         </div>
         <button type="submit" className="form-button">
           Crear Reunión

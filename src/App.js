@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './App.css';
-import './tarjeta.css';
+import './styles/tarjeta.css';
+import Header from './componentes/header';
+import Tarjeta from './componentes/tarjeta';
 
 
 function App() {
@@ -31,17 +33,13 @@ function App() {
 
   return (
     <div className="app">
-      <h1>Reuniones Agendadas</h1>
-      <div className="reuniones-container">
-        {reuniones.map(reunion => (
-          <div key={reunion.id} className="tarjeta">
-            <p>Fecha de Creación: {reunion.fechaCreacion}</p>
-            <p>Fecha de Reunión: {reunion.fechaReunion}</p>
-            <p>Cliente: {reunion.cliente}</p>
-            <p>Tamaño de la Empresa: {reunion.tamanoEmpresa}</p>
-          </div>
-        ))}
-      </div>
+       <Header />
+       <h1>Reuniones Agendadas</h1>
+            <div className="reuniones-container">
+                {reuniones.map(reunion => (
+                    <Tarjeta key={reunion.id} reunion={reunion} />
+                ))}
+            </div>
     </div>
   );
 }

@@ -8,20 +8,13 @@ import Tarjeta from './componentes/tarjeta';
 import CrearReunion from './componentes/crearReunion';
 import DetalleReunion from './componentes/detalleReunion';
 import Home from './pages/Home';
+import ReunionesAgendadas from './componentes/reunionesAgendadas';
 
 function App() {
+
   const [reuniones, setReuniones] = useState([]);
 
   useEffect(() => {
-
-    // axios.get('http://localhost:3001/ruta')
-    //   .then(response => {
-    //     setReuniones(response.data);
-    //   })
-    //   .catch(error => {
-    //     console.error('Error al obtener datos:', error);
-    //   });
-
     const datosMock = [
       {
         id: "1",
@@ -37,8 +30,8 @@ function App() {
         cliente: "Empresa B",
         tamanoEmpresa: "Mediana"
       }
-    ];
-    setReuniones(datosMock);
+      ];
+      setReuniones(datosMock);
   }, []);
 
   return (
@@ -46,19 +39,10 @@ function App() {
       <div className="app">
         <Header />
         <Routes>
-          <Route path="/home" element={<Home />} />
+          <Route path="/" element={<Home />} />
           <Route path="/crear-reunion" element={<CrearReunion />} />
           <Route path="/detalle-reunion/:id" element={<DetalleReunion reuniones={reuniones} />} />
-          <Route path="/" element={
-            <>
-              <h1>Reuniones Agendadas</h1>
-              <div className="reuniones-container">
-                {reuniones.map(reunion => (
-                  <Tarjeta key={reunion.id} reunion={reunion} />
-                ))}
-              </div>
-            </>
-          } />
+          <Route path="/reuniones-agendadas" element={< ReunionesAgendadas/>} />
         </Routes>
       </div>
     </Router>

@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 import './styles/tarjeta.css';
 import Header from './componentes/header';
 import Tarjeta from './componentes/tarjeta';
-
+import CrearReunion from './componentes/crearReunion';
 
 function App() {
   const [reuniones, setReuniones] = useState([]);
@@ -32,15 +33,24 @@ function App() {
   }, []);
 
   return (
-    <div className="app">
-       <Header />
-       <h1>Reuniones Agendadas</h1>
-            <div className="reuniones-container">
+    <Router>
+      <div className="app">
+        <Header />
+        <Routes>
+          <Route path="/crear-reunion" element={<CrearReunion />} />
+          <Route path="/" element={
+            <>
+              <h1>Reuniones Agendadas</h1>
+              <div className="reuniones-container">
                 {reuniones.map(reunion => (
-                    <Tarjeta key={reunion.id} reunion={reunion} />
+                  <Tarjeta key={reunion.id} reunion={reunion} />
                 ))}
-            </div>
-    </div>
+              </div>
+            </>
+          } />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 

@@ -1,0 +1,22 @@
+/* Header.css */
+.header {
+    background-color: #00CED1; /* Cambia el color según tus preferencias */
+    padding: 10px 0;
+}
+
+.header-nav {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.header-nav-item {
+    margin: 0 20px;
+}
+
+.header-nav-link {
+    color: white;
+    text-decoration: none;
+}

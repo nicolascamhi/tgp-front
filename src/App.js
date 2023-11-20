@@ -11,8 +11,15 @@ function App() {
   const [reuniones, setReuniones] = useState([]);
 
   useEffect(() => {
-    // Aquí iría el llamado a Axios para obtener los datos reales.
-    // Por ahora, usaremos datos mock.
+
+    // axios.get('http://localhost:3001/ruta')
+    //   .then(response => {
+    //     setReuniones(response.data);
+    //   })
+    //   .catch(error => {
+    //     console.error('Error al obtener datos:', error);
+    //   });
+
     const datosMock = [
       {
         id: "1",

@@ -34,3 +34,7 @@
     cursor: pointer;
   }
   
+/* Estilo para resaltar el correo inválido */
+.form-input.invalid {
+    border-color: #ff0000; /* Cambia el borde a rojo */
+}

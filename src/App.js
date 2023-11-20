@@ -7,6 +7,7 @@ import Header from './componentes/header';
 import Tarjeta from './componentes/tarjeta';
 import CrearReunion from './componentes/crearReunion';
 import DetalleReunion from './componentes/detalleReunion';
+import Home from './pages/Home';
 
 function App() {
   const [reuniones, setReuniones] = useState([]);
@@ -45,6 +46,7 @@ function App() {
       <div className="app">
         <Header />
         <Routes>
+          <Route path="/home" element={<Home />} />
           <Route path="/crear-reunion" element={<CrearReunion />} />
           <Route path="/detalle-reunion/:id" element={<DetalleReunion reuniones={reuniones} />} />
           <Route path="/" element={

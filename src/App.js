@@ -6,6 +6,7 @@ import './styles/tarjeta.css';
 import Header from './componentes/header';
 import Tarjeta from './componentes/tarjeta';
 import CrearReunion from './componentes/crearReunion';
+import DetalleReunion from './componentes/detalleReunion';
 
 function App() {
   const [reuniones, setReuniones] = useState([]);
@@ -45,6 +46,7 @@ function App() {
         <Header />
         <Routes>
           <Route path="/crear-reunion" element={<CrearReunion />} />
+          <Route path="/detalle-reunion/:id" element={<DetalleReunion reuniones={reuniones} />} />
           <Route path="/" element={
             <>
               <h1>Reuniones Agendadas</h1>

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './App.css';
+import LoginButton from './components/LogInButton';
+import LogoutButton from './components/LogOutButton';
 
 function App() {
   const [reuniones, setReuniones] = useState([]);
@@ -29,6 +31,9 @@ function App() {
 
   return (
     <div className="app">
+      <h1>The Growth Project</h1>
+      <LoginButton />
+      <LogoutButton />
       <h1>Reuniones Agendadas</h1>
       <div className="reuniones-container">
         {reuniones.map(reunion => (

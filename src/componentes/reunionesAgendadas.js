@@ -6,11 +6,13 @@ import { DataGrid } from '@mui/x-data-grid';
 import TextField from '@mui/material/TextField';
 import { Button } from '@mui/material';
 import { Link } from 'react-router-dom';
+import { useAuth0 } from '@auth0/auth0-react';
 
 
 const ReunionesAgendadas = () => {	
 
 
+    const { isAuthenticated } = useAuth0();
 
     const [reuniones, setReuniones] = useState([]);
     const [filtroCliente, setFiltroCliente] = useState('');
@@ -58,24 +60,39 @@ const ReunionesAgendadas = () => {
 
     return (
         <>
+        {
+            isAuthenticated && (
+                <> 
                 <h1>Reuniones Agendadas</h1>
                 <TextField
-                  label="Filtrar por Cliente"
-                  variant="outlined"
-                  value={filtroCliente}
-                  onChange={(e) => setFiltroCliente(e.target.value)}
-                  style={{ marginBottom: '20px' }}
+                    label="Filtrar por Cliente"
+                    variant="outlined"
+                    value={filtroCliente}
+                    onChange={(e) => setFiltroCliente(e.target.value)}
+                    style={{ marginBottom: '20px' }}
                 />
                 <div style={{ height: 400, width: '100%' }}>
-                  <DataGrid
+                    <DataGrid
                     rows={rows}
                     columns={columns}
                     pageSize={5}
                     checkboxSelection
                     disableSelectionOnClick
-                  />
+                    />
                 </div>
-              </>
+                </>
+                
+            )
+        } {(!isAuthenticated && (
+            <div className="tarjeta-profile">
+                <h1>Reuniones Agendadas</h1>
+                <p>Para ver las reuniones agendadas, por favor inicia sesión.</p>
+            </div>
+            )
+        )
+        }   
+        
+        </>
     )
 
 }; 

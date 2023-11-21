@@ -9,16 +9,13 @@ import DetalleReunion from './componentes/detalleReunion';
 import { DataGrid } from '@mui/x-data-grid';
 import TextField from '@mui/material/TextField';
 import { Button } from '@mui/material';
-import Home from './pages/Home';
-import ReunionesAgendadas from './componentes/reunionesAgendadas';
 
-function App() {
-
+export default function App() {
   const [reuniones, setReuniones] = useState([]);
   const [filtroCliente, setFiltroCliente] = useState('');
 
   useEffect(() => {
-    
+    // Simulación de obtención de datos
     const datosMock = [
       {
         id: '1',
@@ -28,14 +25,14 @@ function App() {
         tamanoEmpresa: 'Grande',
       },
       {
-        id: "2",
-        fechaCreacion: "2023-11-05",
-        fechaReunion: "2023-11-22",
-        cliente: "Empresa B",
-        tamanoEmpresa: "Mediana"
-      }
-      ];
-      setReuniones(datosMock);
+        id: '2',
+        fechaCreacion: '2023-11-05',
+        fechaReunion: '2023-11-22',
+        cliente: 'Empresa B',
+        tamanoEmpresa: 'Mediana',
+      },
+    ];
+    setReuniones(datosMock);
   }, []);
 
   const columns = [
@@ -63,10 +60,35 @@ function App() {
       <div className="app">
         <Header />
         <Routes>
-          <Route path="/" element={<Home />} />
           <Route path="/crear-reunion" element={<CrearReunion />} />
-          <Route path="/detalle-reunion/:id" element={<DetalleReunion reuniones={reuniones} />} />
-          <Route path="/reuniones-agendadas" element={< ReunionesAgendadas/>} />
+          <Route
+            path="/detalle-reunion/:id"
+            element={<DetalleReunion reuniones={reuniones} />}
+          />
+          <Route
+            path="/"
+            element={
+              <>
+                <h1>Reuniones Agendadas</h1>
+                <TextField
+                  label="Filtrar por Cliente"
+                  variant="outlined"
+                  value={filtroCliente}
+                  onChange={(e) => setFiltroCliente(e.target.value)}
+                  style={{ marginBottom: '20px' }}
+                />
+                <div style={{ height: 400, width: '100%' }}>
+                  <DataGrid
+                    rows={rows}
+                    columns={columns}
+                    pageSize={5}
+                    checkboxSelection
+                    disableSelectionOnClick
+                  />
+                </div>
+              </>
+            }
+          />
         </Routes>
       </div>
     </Router>

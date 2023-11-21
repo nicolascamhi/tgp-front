@@ -10,6 +10,7 @@ function Header() {
       <nav className="header-nav">
         <div className="header-nav-links">
           <Link to="/" className="header-nav-link">Inicio</Link>
+          <Link to="/reuniones-agendadas" className="header-nav-link">Reuniones Agendadas</Link>
           <Link to="/crear-reunion" className="header-nav-link">Crear Reunión</Link>
         </div>
         <div className="header-nav-auth">

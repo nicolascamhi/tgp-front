@@ -16,7 +16,7 @@ const LandingPage = () => {
                                 <TopLine>TGP</TopLine>
                                 <Heading >¡Gestionar las reuniones nunca fue más fácil!</Heading>
                                 <Subtitle>
-                                    Nos encargamos de tus reuniones. Las agendamos, gestionamos y nos aseguramos que se puedan realizar
+                                    Nos encargamos de tus reuniones. Las agendamos, gestionamos y nos aseguramos que se puedan realizar.
                                 </Subtitle>
                             </TextWrapepr>
                         </Column1>

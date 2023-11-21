@@ -5,18 +5,44 @@
 }
 
 .header-nav {
-    list-style: none;
+    display: flex;
+    justify-content: space-between; /* Alinea los elementos a los extremos */
+    align-items: center; /* Alinea los elementos verticalmente */
     margin: 0;
     padding: 0;
-    display: flex;
-    justify-content: center;
 }
 
-.header-nav-item {
-    margin: 0 20px;
+.header-nav-links {
+    display: flex;
+    justify-content: flex-start;
+    flex-grow: 1; /* Permite que el contenedor de enlaces crezca */
 }
 
 .header-nav-link {
     color: white;
     text-decoration: none;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+.header-nav-auth {
+    display: flex;
+    justify-content: flex-end; /* Alinea los botones a la derecha */
+    margin-right: 20px;
+}
+
+.header-nav-auth button {
+    background-color: #007bff; /* Color principal del botón */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.header-nav-auth button:hover {
+    background-color: #0056b3; /* Color al hacer hover */
+    transform: scale(1.01);
 }

@@ -3,8 +3,12 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import '../styles/detalleReunion.css';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const DetalleReunion = () => {
+
+  const { isAuthenticated } = useAuth0();
+  
   const { id } = useParams();
   const [reunion, setReunion] = useState(null);
 
@@ -46,22 +50,39 @@ const DetalleReunion = () => {
   }
 
   return (
-    <div className="detalle-reunion">
-      <h2>Detalle de la Reunión {id}</h2>
-      <p>Cliente: {reunion.cliente}</p>
-      <p>Fecha de Creación: {reunion.fechaCreacion}</p>
-      <p>Fecha de Reunión: {reunion.fechaReunion}</p>
-      <p>Tamaño de la Empresa: {reunion.tamanoEmpresa}</p>
-      {/* Opciones de editar y eliminar */}
-      <div>
-        <Link to={`/editar-reunion/${id}`}>
-          <button className="editar">Editar</button>
-        </Link>
-        <Link to={`/eliminar-reunion/${id}`}>
-        <button className="eliminar">Eliminar</button>
-        </Link>
-      </div>
-    </div>
+    <>
+    {
+      isAuthenticated && (
+        <>
+          <div className="detalle-reunion">
+          <h2>Detalle de la Reunión {id}</h2>
+          <p>Cliente: {reunion.cliente}</p>
+          <p>Fecha de Creación: {reunion.fechaCreacion}</p>
+          <p>Fecha de Reunión: {reunion.fechaReunion}</p>
+          <p>Tamaño de la Empresa: {reunion.tamanoEmpresa}</p>
+          {/* Opciones de editar y eliminar */}
+          <div>
+            <Link to={`/editar-reunion/${id}`}>
+              <button className="editar">Editar</button>
+            </Link>
+            <Link to={`/eliminar-reunion/${id}`}>
+            <button className="eliminar">Eliminar</button>
+            </Link>
+          </div>
+        </div>
+        </>
+      )
+    } 
+
+    {
+      !isAuthenticated && (
+        <div className="tarjeta-profile">
+                <h1>Detalle de reunión</h1>
+                <p>Tienes que iniciar sesión para ver lo detalles de una reunión</p>
+            </div>
+      )
+    }
+    </>
   );
 };
 

@@ -79,18 +79,21 @@ function CrearReunion() {
         route = 'http://localhost:3001/admin/meetings';
       }
 
-      await axios.post(route, {
+      const response = await axios.post(route, {
         description: 'Reunión creada desde el frontend',
         fecha: fechaReunion,
-        clientMail: correoContacto
+        clientMail: correoContacto,
+        userId: userObj.id,
         // Agrega más atributos aquí
       });
+      console.log(response.data);
       // Manejar la respuesta o redirigir
     } catch (error) {
       console.error(error);
       // Manejar el error
     }
   };
+
 
   return (
     <>

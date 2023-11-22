@@ -32,7 +32,8 @@ function CrearReunion() {
     if (isAuthenticated && user) {
 
       getAccessTokenSilently()
-        .then((token) => {
+        // .then((token) => {
+        .then(() => {
           let userObj;
           if (roles.includes('admin')) {
             userObj = { id: user.sub, role: 'ADMIN', email: user.email, name: user_metadata['name'], company: user_metadata['company'], country: user_metadata['country']};
@@ -74,7 +75,7 @@ function CrearReunion() {
       return;
     }
     try {
-      const route = 'http://localhost:3001/meetings';
+      var route = 'http://localhost:3001/meetings';
       if (userObj.role === 'ADMIN') {
         route = 'http://localhost:3001/admin/meetings';
       }

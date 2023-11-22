@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
 import '../styles/tarjeta.css';
-import Tarjeta from './tarjeta.js';
+// import Tarjeta from './tarjeta.js';
 import { DataGrid } from '@mui/x-data-grid';
 import TextField from '@mui/material/TextField';
-import { Button } from '@mui/material';
+// import { Button } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
 
@@ -30,7 +30,8 @@ const ReunionesAgendadas = () => {
         if (isAuthenticated && user) {
 
             getAccessTokenSilently()
-              .then((token) => {
+            //   .then((token) => {
+            .then(() => {
                 let userObj;
                 if (roles.includes('admin')) {
                   userObj = { id: user.sub, role: 'ADMIN', email: user.email, name: user_metadata['name'], company: user_metadata['company'], country: user_metadata['country']};
@@ -49,7 +50,9 @@ const ReunionesAgendadas = () => {
               });
           }
 
-        const data = axios.post('http://localhost:3001/reuniones'); 
+        console.log('userObj: ', userObj);
+
+        // const data = axios.post('http://localhost:3001/reuniones'); 
         // Simulación de obtención de datos
         const datosMock = [
         {
@@ -68,7 +71,7 @@ const ReunionesAgendadas = () => {
         },
         ];
         setReuniones(datosMock);
-    }, []);
+    }, [isAuthenticated, user, getAccessTokenSilently]);
 
     const columns = [
         { field: 'id', headerName: 'ID', width: 100 },

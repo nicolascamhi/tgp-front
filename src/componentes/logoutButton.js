@@ -1,4 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react";
+import React from "react";
 import '../App.css';
 
 const LogoutButton = () => {
@@ -10,6 +11,7 @@ const LogoutButton = () => {
         user_metadata = user['https://tgp.me/user_metadata'];
         console.log('user_metadata: ', user_metadata);
   }
+  console.log(roles);
     
     return (
         isAuthenticated && (

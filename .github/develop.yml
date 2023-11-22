@@ -3,6 +3,8 @@ name: Node.js Lint Workflow
 on: 
     pull_request:
         branches: develop
+    push:
+        branches: develop
 
 jobs: 
     lint:

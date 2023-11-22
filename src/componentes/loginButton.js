@@ -51,7 +51,7 @@ const LoginButton = () => {
           console.error('Error obteniendo el token', error);
         });
     }
-  }, [isAuthenticated, user, userIdSent, getAccessTokenSilently]);
+  }, [isAuthenticated, user, userIdSent, getAccessTokenSilently, roles, user_metadata]);
 
   const { isLoading } = useAuth0();
 

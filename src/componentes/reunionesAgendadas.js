@@ -71,7 +71,7 @@ const ReunionesAgendadas = () => {
         },
         ];
         setReuniones(datosMock);
-    }, [isAuthenticated, user, getAccessTokenSilently]);
+    }, [isAuthenticated, user, getAccessTokenSilently, roles, user_metadata, userObj]);
 
     const columns = [
         { field: 'id', headerName: 'ID', width: 100 },

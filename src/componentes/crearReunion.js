@@ -51,7 +51,7 @@ function CrearReunion() {
           console.error('Error obteniendo el token', error);
         });
     }
-  }, [isAuthenticated, user, getAccessTokenSilently]);
+  }, [isAuthenticated, user, getAccessTokenSilently, roles, user_metadata]);
 
 
 

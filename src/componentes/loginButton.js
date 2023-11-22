@@ -3,19 +3,34 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 const backendURL = process.env.REACT_APP_BACKEND_URL;
-const loginURL = `${backendURL}/users/login`;
+const loginURL = `${backendURL}/auth/login`;
 
 const LoginButton = () => {
   const { loginWithRedirect, isAuthenticated, user, getAccessTokenSilently } =
     useAuth0();
   const [userIdSent, setUserIdSent] = useState(false);
+  let roles;
+  let user_metadata;
+  if (user) {
+    roles = user['https://tgp.me/roles']; // Si no es admin, devuelve un arreglo vacío
+    user_metadata = user['https://tgp.me/user_metadata'];
+    console.log('user_metadata: ', user_metadata);
+  }
 
   useEffect(() => {
     if (isAuthenticated && user && !userIdSent) {
       // Obtener el token de acceso de forma silenciosa
       getAccessTokenSilently()
         .then((token) => {
-          const userObj = { userId: user.sub};
+          let userObj;
+          if (roles.includes('admin')) {
+            userObj = { id: user.sub, role: 'ADMIN', email: user.email, name: user_metadata['name'], company: user_metadata['company'], country: user_metadata['country']};
+          } else if (user_metadata['company'] === 'TGP') {
+            userObj = { id: user.sub, role: 'WORKER', email: user.email, name: user.name };
+          } else {
+            userObj = { id: user.sub, role: 'CLIENT', email: user.email, name: user.name };
+          }
+          console.log('User a enviar al backend: ', userObj);
           axios
             .post(loginURL, userObj, {
               headers: {

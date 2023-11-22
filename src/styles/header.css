@@ -31,6 +31,13 @@
     margin-right: 20px;
 }
 
+.header-nav-auth h3 {
+    color: white;
+    margin-right: 10px;
+    font-size: 16px;
+    font-weight: 500;
+}
+
 .header-nav-auth button {
     background-color: #007bff; /* Color principal del botón */
     color: white;

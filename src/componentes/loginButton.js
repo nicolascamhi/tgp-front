@@ -9,13 +9,13 @@ const LoginButton = () => {
   const { loginWithRedirect, isAuthenticated, user, getAccessTokenSilently } =
     useAuth0();
   const [userIdSent, setUserIdSent] = useState(false);
-
+  
   useEffect(() => {
     if (isAuthenticated && user && !userIdSent) {
       // Obtener el token de acceso de forma silenciosa
       getAccessTokenSilently()
         .then((token) => {
-          const userObj = { userId: user.sub};
+          const userObj = { userId: user.sub, email: user.email, firstName: user.nickname};
           axios
             .post(loginURL, userObj, {
               headers: {

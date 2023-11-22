@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -9,8 +9,9 @@ import { useAuth0 } from '@auth0/auth0-react';
 
 function CrearReunion() {
 
-  const { isAuthenticated } = useAuth0();
+  const { isAuthenticated, user, getAccessTokenSilently } = useAuth0();
 
+  const [userObj, setUserObj] = useState({});
   const [fechaCreacion, setFechaCreacion] = useState(new Date());
   const [fechaReunion, setFechaReunion] = useState(new Date());
   const [cliente, setCliente] = useState('');
@@ -18,6 +19,40 @@ function CrearReunion() {
   const [correoContacto, setCorreoContacto] = useState('');
   const [correoValido, setCorreoValido] = useState(true);
   const [inputTouched, setInputTouched] = useState(false);
+
+  let roles;
+  let user_metadata;
+  if (user) {
+    roles = user['https://tgp.me/roles']; // Si no es admin, devuelve un arreglo vacío
+    user_metadata = user['https://tgp.me/user_metadata'];
+    console.log('user_metadata: ', user_metadata);
+  }
+
+  useEffect(() => {
+    if (isAuthenticated && user) {
+
+      getAccessTokenSilently()
+        .then((token) => {
+          let userObj;
+          if (roles.includes('admin')) {
+            userObj = { id: user.sub, role: 'ADMIN', email: user.email, name: user_metadata['name'], company: user_metadata['company'], country: user_metadata['country']};
+            setUserObj(userObj);
+          } else if (user_metadata['company'] === 'TGP') {
+            userObj = { id: user.sub, role: 'WORKER', email: user.email, name: user.name };
+            setUserObj(userObj);
+          } else {
+            userObj = { id: user.sub, role: 'CLIENT', email: user.email, name: user.name };
+            setUserObj(userObj);
+          }
+          console.log('Info del usuario: ', userObj);
+        })
+        .catch((error) => {
+          console.error('Error obteniendo el token', error);
+        });
+    }
+  }, [isAuthenticated, user, getAccessTokenSilently]);
+
+
 
   const validarCorreo = (correo) => {
     const regexCorreo = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
@@ -33,14 +68,21 @@ function CrearReunion() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!fechaCreacion || !fechaReunion || !cliente || !tamanoEmpresa || !correoContacto) {
+      // Puedes mostrar un mensaje de error o realizar alguna otra acción aquí
+      alert('Por favor llena todos los campos');
+      return;
+    }
     try {
-      // Enviar los datos al backend
-      await axios.post('http://localhost:3001/reuniones', {
-        fechaCreacion,
-        fechaReunion,
-        cliente,
-        tamanoEmpresa,
-        correoContacto,
+      const route = 'http://localhost:3001/meetings';
+      if (userObj.role === 'ADMIN') {
+        route = 'http://localhost:3001/admin/meetings';
+      }
+
+      await axios.post(route, {
+        description: 'Reunión creada desde el frontend',
+        fecha: fechaReunion,
+        clientMail: correoContacto
         // Agrega más atributos aquí
       });
       // Manejar la respuesta o redirigir

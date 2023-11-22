@@ -71,7 +71,8 @@ const ReunionesAgendadas = () => {
         },
         ];
         setReuniones(datosMock);
-    }, [isAuthenticated, user, getAccessTokenSilently, roles, user_metadata, userObj]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isAuthenticated, user, getAccessTokenSilently]);
 
     const columns = [
         { field: 'id', headerName: 'ID', width: 100 },

@@ -12,12 +12,44 @@ import { useAuth0 } from '@auth0/auth0-react';
 const ReunionesAgendadas = () => {	
 
 
-    const { isAuthenticated } = useAuth0();
+    const { isAuthenticated, user, getAccessTokenSilently } = useAuth0();
 
     const [reuniones, setReuniones] = useState([]);
     const [filtroCliente, setFiltroCliente] = useState('');
+    const [userObj, setUserObj] = useState({});
+
+    let roles;
+    let user_metadata;
+    if (user) {
+        roles = user['https://tgp.me/roles']; // Si no es admin, devuelve un arreglo vacío
+        user_metadata = user['https://tgp.me/user_metadata'];
+        console.log('user_metadata: ', user_metadata);
+    }
 
     useEffect(() => {
+        if (isAuthenticated && user) {
+
+            getAccessTokenSilently()
+              .then((token) => {
+                let userObj;
+                if (roles.includes('admin')) {
+                  userObj = { id: user.sub, role: 'ADMIN', email: user.email, name: user_metadata['name'], company: user_metadata['company'], country: user_metadata['country']};
+                  setUserObj(userObj);
+                } else if (user_metadata['company'] === 'TGP') {
+                  userObj = { id: user.sub, role: 'WORKER', email: user.email, name: user.name };
+                  setUserObj(userObj);
+                } else {
+                  userObj = { id: user.sub, role: 'CLIENT', email: user.email, name: user.name };
+                  setUserObj(userObj);
+                }
+                console.log('Info del usuario: ', userObj);
+              })
+              .catch((error) => {
+                console.error('Error obteniendo el token', error);
+              });
+          }
+
+        const data = axios.post('http://localhost:3001/reuniones'); 
         // Simulación de obtención de datos
         const datosMock = [
         {

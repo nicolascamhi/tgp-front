@@ -51,7 +51,8 @@ function CrearReunion() {
           console.error('Error obteniendo el token', error);
         });
     }
-  }, [isAuthenticated, user, getAccessTokenSilently, roles, user_metadata]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAuthenticated, user, getAccessTokenSilently]);
 
 
 

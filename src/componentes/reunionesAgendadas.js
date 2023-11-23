@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-// import axios from 'axios';
+import axios from 'axios';
 import '../styles/tarjeta.css';
 // import Tarjeta from './tarjeta.js';
 import { DataGrid } from '@mui/x-data-grid';
@@ -8,71 +8,53 @@ import TextField from '@mui/material/TextField';
 import { Link } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
 
+const backendURL = process.env.REACT_APP_BACKEND_URL;
+// const auth0Namespace = process.env.REACT_APP_AUTH0_NAMESPACE;
+
 
 const ReunionesAgendadas = () => {	
 
 
     const { isAuthenticated, user, getAccessTokenSilently } = useAuth0();
-
-    const [reuniones, setReuniones] = useState([]);
-    const [filtroCliente, setFiltroCliente] = useState('');
-    const [userObj, setUserObj] = useState({});
-
     let roles;
     let user_metadata;
+
     if (user) {
         roles = user['https://tgp.me/roles']; // Si no es admin, devuelve un arreglo vacío
         user_metadata = user['https://tgp.me/user_metadata'];
-        console.log('user_metadata: ', user_metadata);
     }
 
+    let meetingURL;
+    if (roles.includes('admin')) {
+        meetingURL = `${backendURL}/admin/meetings`;
+    } else if (user_metadata['company'] === 'TGP') {
+        meetingURL = `${backendURL}/meetings`;
+    } else {
+        meetingURL = `${backendURL}/client/meetings`;
+    }
+
+    console.log('meetingURL: ', meetingURL);
+
+
+    const [reuniones, setReuniones] = useState([]);
+    const [filtroCliente, setFiltroCliente] = useState('');
+
     useEffect(() => {
-        if (isAuthenticated && user) {
-
-            getAccessTokenSilently()
-            //   .then((token) => {
-            .then(() => {
-                let userObj;
-                if (roles.includes('admin')) {
-                  userObj = { id: user.sub, role: 'ADMIN', email: user.email, name: user_metadata['name'], company: user_metadata['company'], country: user_metadata['country']};
-                  setUserObj(userObj);
-                } else if (user_metadata['company'] === 'TGP') {
-                  userObj = { id: user.sub, role: 'WORKER', email: user.email, name: user.name };
-                  setUserObj(userObj);
-                } else {
-                  userObj = { id: user.sub, role: 'CLIENT', email: user.email, name: user.name };
-                  setUserObj(userObj);
-                }
-                console.log('Info del usuario: ', userObj);
-              })
-              .catch((error) => {
-                console.error('Error obteniendo el token', error);
-              });
-          }
-
-        console.log('userObj: ', userObj);
-
-        // const data = axios.post('http://localhost:3001/reuniones'); 
-        // Simulación de obtención de datos
-        const datosMock = [
-        {
-            id: '1',
-            fechaCreacion: '2023-11-01',
-            fechaReunion: '2023-11-20',
-            cliente: 'Empresa A',
-            tamanoEmpresa: 'Grande',
-        },
-        {
-            id: '2',
-            fechaCreacion: '2023-11-05',
-            fechaReunion: '2023-11-22',
-            cliente: 'Empresa B',
-            tamanoEmpresa: 'Mediana',
-        },
-        ];
-        setReuniones(datosMock);
+        const fetchReuniones = async () => {
+            try {
+                const response = await axios.get(meetingURL, {
+                    headers: {
+                        'userId': user.sub,
+                    }
+                });
+                setReuniones(response.data);
+            } catch (error) {
+                console.error('Error al obtener las reuniones:', error);
+            }
+        };
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isAuthenticated, user, getAccessTokenSilently]);
+        fetchReuniones();
+    }, [isAuthenticated, user, getAccessTokenSilently, meetingURL]);
 
     const columns = [
         { field: 'id', headerName: 'ID', width: 100 },
@@ -90,8 +72,12 @@ const ReunionesAgendadas = () => {
         },
     ];
 
+    console.log('reuniones: ', reuniones);
+    // const rows = reuniones.filter((reunion) =>
+    //     reunion.cliente.toLowerCase().includes(filtroCliente.toLowerCase())
+    // );
     const rows = reuniones.filter((reunion) =>
-        reunion.cliente.toLowerCase().includes(filtroCliente.toLowerCase())
+        reunion.clientId.toLowerCase().includes(filtroCliente.toLowerCase())
     );
 
     return (

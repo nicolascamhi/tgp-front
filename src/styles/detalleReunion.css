@@ -1,0 +1,55 @@
+/* DetalleReunion.css */
+.detalle-reunion {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    margin-top: 20px;
+  }
+  
+  .detalle-reunion:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  .detalle-reunion h2 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+    color: #333;
+    font-weight: bold;
+  }
+  
+  .detalle-reunion p {
+    font-size: 0.9em;
+    margin-bottom: 10px;
+    color: #555;
+  }
+  
+  /* Botones de editar y eliminar */
+  .detalle-reunion button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+  }
+  
+  .detalle-reunion .editar {
+    background-color: #28a745;
+    color: #fff;
+    margin-right: 10px;
+  }
+  
+  .detalle-reunion .eliminar {
+    background-color: #dc3545;
+    color: #fff;
+  }
+  
+  .detalle-reunion .eliminar:hover {
+    background-color: #c82333;
+  }
+  
+  

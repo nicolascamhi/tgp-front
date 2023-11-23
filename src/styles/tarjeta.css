@@ -1,0 +1,43 @@
+.tarjeta {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 20px;
+    padding: 20px;
+    width: 300px; /* Ancho fijo para controlar el tamaño */
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  }
+  
+  .tarjeta:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  .tarjeta-body {
+    padding: 15px;
+  }
+  
+  .tarjeta-title {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+    color: #333;
+    font-weight: bold;
+  }
+  
+  .tarjeta-text {
+    font-size: 0.9em;
+    margin-bottom: 10px;
+    color: #555;
+  }
+
+  .tarjeta a {
+    display: inline-block;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    text-decoration: none;
+    cursor: pointer;
+    margin-top: 10px;
+  }

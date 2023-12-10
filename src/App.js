@@ -11,6 +11,7 @@ import ReunionCreada from './componentes/reunionCreada';
 import EditarReunion from './componentes/editarReunion';
 import EliminarReunion from './componentes/eliminarReunion';
 import ReunionEliminada from './componentes/reunionEliminada';
+import Dashboard from './componentes/dashboard';
 
 
 export default function App() {
@@ -36,6 +37,10 @@ export default function App() {
           <Route
             path="/editar-reunion/:id"
             element={<EditarReunion />}
+          />
+          <Route
+            path="/dashboard"
+            element={<Dashboard />}
           />
           <Route
             path="/eliminar-reunion/:id"

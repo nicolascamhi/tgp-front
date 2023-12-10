@@ -53,10 +53,18 @@ function Header() {
             isAuthenticated && (
               <>
               <Link to="/reuniones-agendadas" className="header-nav-link">Reuniones Agendadas</Link>
+              
               { (userObj.role === 'ADMIN' || userObj.role === 'WORKER') && (
                 <Link to="/crear-reunion" className="header-nav-link">Crear Reunión</Link>
+                
               )
               }
+              { (userObj.role === 'ADMIN' || userObj.role === 'WORKER') && (
+                <Link to="/dashboard" className="header-nav-link">Dashboard</Link>
+                
+              )
+              }
+              
               </>
             )
           }

@@ -19,6 +19,7 @@ function CrearReunion() {
   const [fechaReunion, setFechaReunion] = useState(new Date());
   const [cliente, setCliente] = useState('');
   const [tamanoEmpresa, setTamanoEmpresa] = useState(null);
+  const [empresaExterna, setEmpresaExterna] = useState(null);
   const [correoContacto, setCorreoContacto] = useState('');
   const [correoValido, setCorreoValido] = useState(true);
   const [inputTouched, setInputTouched] = useState(false);
@@ -95,8 +96,7 @@ function CrearReunion() {
         clientMail: correoContacto,
         userId: userObj.id,
         clientName: cliente,
-        externalName: user.nickname
-        // Agrega más atributos aquí
+        externalName: empresaExterna
       });
       // console.log(response.data);
       if (response.status === 200) {
@@ -155,6 +155,17 @@ function CrearReunion() {
               />
             </div>
             <div>
+            <div>
+              <label htmlFor="empresaExterna" className="form-label">
+                Empresa Externa:
+              </label>
+              <input
+                type="text"
+                id="empresaExterna"
+                onChange={(e) => setEmpresaExterna(e.target.value)}
+                className="form-input"
+              />
+            </div>
               <label htmlFor="tamanoEmpresa" className="form-label">
                 Tamaño de la Empresa:
               </label>

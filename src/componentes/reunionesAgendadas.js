@@ -67,6 +67,7 @@ const ReunionesAgendadas = () => {
             width: 200,
             valueGetter: (params) => params.row.clientName || 'Sin Cliente',
           },
+          { field: 'externalName', headerName: 'Empresa externa', width: 200 },
         { field: 'tamanoEmpresa', headerName: 'Tamaño de la Empresa', width: 200 },
         {
         field: 'verDetalle',
@@ -82,18 +83,25 @@ const ReunionesAgendadas = () => {
     // const rows = reuniones.filter((reunion) =>
     //     reunion.cliente.toLowerCase().includes(filtroCliente.toLowerCase())
     // );
-    const rows = reuniones.filter((reunion) =>
-        reunion.clientName.toLowerCase().includes(filtroCliente.toLowerCase())
-    );
+    const rows = reuniones.filter((reunion) => {
+        // Convertir todo a minúsculas para hacer la comparación insensible a mayúsculas
+        const filtroMinuscula = filtroCliente.toLowerCase();
+        const clientNameMinuscula = reunion.clientName.toLowerCase();
+        const externalNameMinuscula = reunion.externalName ? reunion.externalName.toLowerCase() : '';
+    
+        // Comprobar si el filtroCliente coincide con clientName o externalName
+        return clientNameMinuscula.includes(filtroMinuscula) || externalNameMinuscula.includes(filtroMinuscula);
+    });
+    
 
     return (
         <>
         {
             isAuthenticated && (
                 <> 
-                <h1>Reuniones Agendadas</h1>
+                <h1></h1>
                 <TextField
-                    label="Filtrar por Cliente"
+                    label="Filtrar por nombre empresa"
                     variant="outlined"
                     value={filtroCliente}
                     onChange={(e) => setFiltroCliente(e.target.value)}

@@ -130,6 +130,7 @@ const DetalleReunion = () => {
           {/* <p>Cliente: {user_metadata['company']}</p> */}
           <p>Fecha de Creación: {reuniones.fechaCreacion}</p>
           <p>Fecha de Reunión: {reuniones.fechaReunion}</p>
+          <p>Empresa externa: {reuniones.externalName}</p>
           <p>Tamaño de la Empresa: {reuniones.tamanoEmpresa}</p>
           <p>Descripción: {reuniones.description}</p>
           {

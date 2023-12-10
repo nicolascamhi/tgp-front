@@ -20,13 +20,18 @@ const backendURL = process.env.REACT_APP_BACKEND_URL;
 const Dashboard = () => {	
 
     const obtenerDatosPorMes = () => {
-        const conteoPorMes = {}; // Objeto para almacenar el conteo
+        const conteoPorMes = new Array(12).fill(0); // Inicializa un array para cada mes del año
+    
         reuniones.forEach(reunion => {
-            const mes = new Date(reunion.fechaCreacion).getMonth(); // Obtén el mes de la fecha de creación
-            conteoPorMes[mes] = (conteoPorMes[mes] || 0) + 1; // Incrementa el conteo para ese mes
+            const fecha = new Date(reunion.fechaCreacion);
+            const mes = fecha.getMonth(); // Obtén el mes (0-11)
+            conteoPorMes[mes] += 1; // Incrementa el conteo para ese mes
         });
-        return Object.values(conteoPorMes); // Retorna un arreglo con los conteos
+    
+        return conteoPorMes;
     };
+    
+    
     
     const obtenerDatosPorCliente = () => {
         const conteoPorCliente = {}; // Objeto para almacenar el conteo
@@ -103,6 +108,7 @@ const Dashboard = () => {
                     }}
                 />
             </div>
+
             <div className="grafico-container">
                 <Bar
                     data={{

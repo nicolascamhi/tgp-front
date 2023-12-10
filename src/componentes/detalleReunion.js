@@ -38,9 +38,9 @@ const DetalleReunion = () => {
     const fetchReuniones = async () => {
         try {
             const response = await axios.get(meetingURL, {
-                headers: {
-                    'userId': user.sub,
-                }
+              headers: {
+                Authorization: user.sub,
+              }
             });
             setReuniones(response.data);
         } catch (error) {
@@ -100,8 +100,12 @@ const DetalleReunion = () => {
           <h2>Detalle de la Reunión {id}</h2>
           {/* <p>Cliente: {reunion.cliente}</p> */}
           <p>Cliente: {user_metadata['company']}</p>
-          <p>Fecha de Creación: {reuniones.createdAt}</p>
-          <p>Fecha de Reunión: {reuniones.fecha}</p>
+          <p>Fecha de Creación: {reuniones.fechaCreacion}</p>
+          <p>Fecha de Reunión: {reuniones.fechaReunion}</p>
+          <p>Nombre cliente: {reuniones.clientName}</p>
+          <p>Empresa externa: {reuniones.externalName}</p>
+          <p>Tamaño empresa: {reuniones.tamanoEmpresa}</p>
+
           {/* <p>Tamaño de la Empresa: {reunion.tamanoEmpresa}</p> */}
           {/* Opciones de editar y eliminar */}
           {/* <div>

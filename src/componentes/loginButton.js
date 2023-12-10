@@ -34,7 +34,7 @@ const LoginButton = () => {
           axios
             .post(loginURL, userObj, {
               headers: {
-                Authorization: `Bearer ${token}`,
+                Authorization: user.sub,
               },
             })
             .then((response) => {

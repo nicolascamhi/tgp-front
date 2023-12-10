@@ -18,6 +18,7 @@ function CrearReunion() {
   const [fechaCreacion, setFechaCreacion] = useState(new Date());
   const [fechaReunion, setFechaReunion] = useState(new Date());
   const [cliente, setCliente] = useState('');
+  const [empresa, setEmpresa] = useState('');
   const [tamanoEmpresa, setTamanoEmpresa] = useState(null);
   const [correoContacto, setCorreoContacto] = useState('');
   const [correoValido, setCorreoValido] = useState(true);
@@ -85,12 +86,17 @@ function CrearReunion() {
       }
 
       const response = await axios.post(route, {
+        headers: {
+          Authorization: user.sub,
+        },
         description: 'Reunión creada desde el frontend',
-        fecha: fechaReunion,
+        fechaReunion: fechaReunion,
+        fechaCreacion: fechaCreacion,
         clientMail: correoContacto,
         userId: userObj.id,
-        // cliente: cliente,
-        // Agrega más atributos aquí
+        tamanoEmpresa: tamanoEmpresa,
+        clientName: cliente,
+        externalName: empresa
       });
       // console.log(response.data);
       if (response.status === 200) {
@@ -149,23 +155,8 @@ function CrearReunion() {
               />
             </div>
             <div>
-              <label htmlFor="tamanoEmpresa" className="form-label">
-                Tamaño de la Empresa:
-              </label>
-              <Select
-                id="tamanoEmpresa"
-                value={tamanoEmpresa}
-                onChange={(selectedOption) => setTamanoEmpresa(selectedOption)}
-                options={[
-                  { value: 'Pequeña', label: 'Pequeña' },
-                  { value: 'Mediana', label: 'Mediana' },
-                  { value: 'Grande', label: 'Grande' },
-                ]}
-              />
-            </div>
-            <div>
               <label htmlFor="correoContacto" className="form-label">
-                Correo de Contacto:
+                Correo de Cliente:
               </label>
               <input
                 type="email"
@@ -178,6 +169,35 @@ function CrearReunion() {
                 <p className="text-red-300">El correo ingresado no es válido.</p>
               )}
             </div>
+            <div>
+              <label htmlFor="tamanoEmpresa" className="form-label">
+                Tamaño de la Empresa externa:
+              </label>
+              <Select
+                id="tamanoEmpresa"
+                value={tamanoEmpresa}
+                onChange={(selectedOption) => setTamanoEmpresa(selectedOption.value)}
+                options={[
+                  { value: 'Pequeña', label: 'Pequeña' },
+                  { value: 'Mediana', label: 'Mediana' },
+                  { value: 'Grande', label: 'Grande' },
+                ]}
+              />
+            </div>
+            <div>
+              <label htmlFor="Empresa agendada" className="form-label">
+              Empresa agendada:
+              </label>
+              <input
+                type="text"
+                id="Empresa agendada"
+                value={empresa}
+                onChange={(e) => setEmpresa(e.target.value)}
+                className="form-input"
+              />
+            </div>
+            
+            
             <button type="submit" className="form-button">
               Crear Reunión
             </button>

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useParams, Link } from 'react-router-dom';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import { useParams, useNavigate } from 'react-router-dom';
 import '../styles/detalleReunion.css';
 import { useAuth0 } from '@auth0/auth0-react';
 
@@ -8,12 +10,16 @@ import { useAuth0 } from '@auth0/auth0-react';
 
 const backendURL = process.env.REACT_APP_BACKEND_URL;
 
-const DetalleReunion = () => {
+const EditarReunion = () => {
 
   const { isAuthenticated, user, getAccessTokenSilently } = useAuth0();
-  
+  const navigate = useNavigate();
+
+
+  const [fechaReunion, setfechaReunion] = useState(new Date());
+  const [description, setDescription] = useState();
   const { id } = useParams();
-  // const [reunion, setReunion] = useState(null);
+  
 
   let roles;
   let user_metadata;
@@ -81,39 +87,31 @@ const DetalleReunion = () => {
     fetchReuniones();
   }, [isAuthenticated, user, getAccessTokenSilently, meetingURL]);
 
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     try {
+//       var route = 'http://localhost:3001/meetings';
+//       if (userObj.role === 'ADMIN') {
+//         route = 'http://localhost:3001/admin/meetings';
+//       }
 
-  // useEffect(() => {
+//       const response = await axios.patch(route, {
+//         description: description,
+//         fechaReunion: fechaReunion,
 
-  //   // axios.get(`http://localhost:3001/tu-ruta-de-api/${id}`)
-  //   //   .then(response => {
-  //   //     setReunion(response.data);
-  //   //   })
-  //   //   .catch(error => {
-  //   //     console.error('Error al obtener datos:', error);
-  //   //   });
+//       });
+//       // console.log(response.data);
+//       if (response.status === 200) {
+//         alert('Reunión creada exitosamente');
+//         navigate('/reunion-creada');
+//       }
+//       // Manejar la respuesta o redirigir
+//     } catch (error) {
+//       console.error(error);
+//       // Manejar el error
+//     }
+//   };
 
-  //   // Data mock mientras el backend no esté listo
-  //   const datosMock = [
-  //     {
-  //       id: "1",
-  //       fechaCreacion: "2023-11-01",
-  //       fechaReunion: "2023-11-20",
-  //       cliente: "Empresa A",
-  //       tamanoEmpresa: "Grande"
-  //     },
-  //     {
-  //       id: "2",
-  //       fechaCreacion: "2023-11-05",
-  //       fechaReunion: "2023-11-22",
-  //       cliente: "Empresa B",
-  //       tamanoEmpresa: "Mediana"
-  //     }
-  //   ];
-
-  //   const reunionEncontrada = datosMock.find(reunion => reunion.id === id);
-
-  //   setReunion(reunionEncontrada);
-  // }, [id]);
 
   if (!reuniones) {
     return <div>Cargando...</div>;
@@ -122,29 +120,39 @@ const DetalleReunion = () => {
   return (
     <>
     {
-      isAuthenticated && (
+      isAuthenticated && (userObj.role === "WORKER" || userObj.role === "ADMIN") && (
         <>
           <div className="detalle-reunion">
           <h2>Detalle de la Reunión {id}</h2>
           <p>Cliente: {reuniones.clientName}</p>
-          {/* <p>Cliente: {user_metadata['company']}</p> */}
-          <p>Fecha de Creación: {reuniones.fechaCreacion}</p>
-          <p>Fecha de Reunión: {reuniones.fechaReunion}</p>
-          <p>Tamaño de la Empresa: {reuniones.tamanoEmpresa}</p>
-          <p>Descripción: {reuniones.description}</p>
-          {
-            (userObj.role === "WORKER" || userObj.role === "ADMIN") && (
-              // Opciones de editar y eliminar
-              <div>
-                <Link to={`/editar-reunion/${id}`}>
-                  <button className="editar">Editar</button>
-                </Link>
-                <Link to={`/eliminar-reunion/${id}`}>
-                <button className="eliminar">Eliminar</button>
-                </Link>
-              </div>
-            )
-          }
+          {/* <p>Cliente: {user_metadata['company']}</p> */}          
+          <div>
+              <label htmlFor="fechaReunion" className="form-label">
+                Nueva fecha de Reunión:
+                <p>Fecha de Reunión actual: {reuniones.fechaReunion}</p>
+              </label>
+              <DatePicker
+                selected={fechaReunion}
+                onChange={(date) => setfechaReunion(date)}
+                id="fechaReunion"
+                className="form-input"
+              />
+            </div>
+          <div>
+              <label htmlFor="cliente" className="form-label">
+              Descripción:
+              <p>Descripción actual: {reuniones.description}</p>
+              </label>
+              <input
+                type="text"
+                id="cliente"
+                onChange={(e) => setDescription(e.target.value)}
+                className="form-input"
+              />
+            </div>
+
+            <button className="editar" >Editar</button>
+
         </div>
         </>
       )
@@ -153,7 +161,7 @@ const DetalleReunion = () => {
     {
       !isAuthenticated && (
         <div className="tarjeta-profile">
-                <h1>Detalle de reunión</h1>
+                <h1>Editar Reunion</h1>
                 <p>Tienes que iniciar sesión para ver lo detalles de una reunión</p>
             </div>
       )
@@ -162,4 +170,4 @@ const DetalleReunion = () => {
   );
 };
 
-export default DetalleReunion;
+export default EditarReunion;

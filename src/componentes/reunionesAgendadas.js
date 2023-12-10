@@ -60,7 +60,13 @@ const ReunionesAgendadas = () => {
         { field: 'id', headerName: 'ID', width: 100 },
         { field: 'fechaCreacion', headerName: 'Fecha de Creación', width: 200 },
         { field: 'fechaReunion', headerName: 'Fecha de Reunión', width: 200 },
-        { field: 'cliente', headerName: 'Cliente', width: 200 },
+        // { field: 'cliente', headerName: 'Cliente', width: 200 },
+        {
+            field: 'cliente',
+            headerName: 'Cliente',
+            width: 200,
+            valueGetter: (params) => params.row.clientName || 'Sin Cliente',
+          },
         { field: 'tamanoEmpresa', headerName: 'Tamaño de la Empresa', width: 200 },
         {
         field: 'verDetalle',

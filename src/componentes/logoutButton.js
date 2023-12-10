@@ -4,14 +4,14 @@ import '../App.css';
 
 const LogoutButton = () => {
     const { logout, isAuthenticated, user } = useAuth0();
-    let roles;
+    // let roles;
     let user_metadata;
     if (user) {
-        roles = user['https://tgp.me/roles']; // Si no es admin, devuelve un arreglo vacío
+        // roles = user['https://tgp.me/roles']; // Si no es admin, devuelve un arreglo vacío
         user_metadata = user['https://tgp.me/user_metadata'];
-        console.log('user_metadata: ', user_metadata);
+        // console.log('user_metadata: ', user_metadata);
   }
-  console.log(roles);
+//   console.log(roles);
     
     return (
         isAuthenticated && (

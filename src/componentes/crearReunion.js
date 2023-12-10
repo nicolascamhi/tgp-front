@@ -22,6 +22,7 @@ function CrearReunion() {
   const [correoContacto, setCorreoContacto] = useState('');
   const [correoValido, setCorreoValido] = useState(true);
   const [inputTouched, setInputTouched] = useState(false);
+  const [description, setDescription] = useState('Reunión creada desde el frontend');
 
 
   let roles;
@@ -87,7 +88,7 @@ function CrearReunion() {
       }
 
       const response = await axios.post(route, {
-        description: 'Reunión creada desde el frontend',
+        description: description,
         fechaCreacion: fechaCreacion,
         fechaReunion: fechaReunion,
         tamanoEmpresa: tamanoEmpresa.value,
@@ -182,6 +183,17 @@ function CrearReunion() {
               {inputTouched && !correoValido && (
                 <p className="text-red-300">El correo ingresado no es válido.</p>
               )}
+            </div>
+            <div>
+              <label htmlFor="cliente" className="form-label">
+                Descripción:
+              </label>
+              <input
+                type="text"
+                id="cliente"
+                onChange={(e) => setDescription(e.target.value)}
+                className="form-input"
+              />
             </div>
             <button type="submit" className="form-button">
               Crear Reunión

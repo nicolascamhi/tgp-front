@@ -23,6 +23,7 @@ function CrearReunion() {
   const [correoValido, setCorreoValido] = useState(true);
   const [inputTouched, setInputTouched] = useState(false);
 
+
   let roles;
   let user_metadata;
   if (user) {
@@ -71,6 +72,7 @@ function CrearReunion() {
     setCorreoValido(validarCorreo(correo));
   };
 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!fechaCreacion || !fechaReunion || !cliente || !tamanoEmpresa || !correoContacto) {
@@ -86,10 +88,13 @@ function CrearReunion() {
 
       const response = await axios.post(route, {
         description: 'Reunión creada desde el frontend',
-        fecha: fechaReunion,
+        fechaCreacion: fechaCreacion,
+        fechaReunion: fechaReunion,
+        tamanoEmpresa: tamanoEmpresa.value,
         clientMail: correoContacto,
         userId: userObj.id,
-        // cliente: cliente,
+        clientName: cliente,
+        externalName: user.nickname
         // Agrega más atributos aquí
       });
       // console.log(response.data);

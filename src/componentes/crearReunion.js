@@ -5,10 +5,13 @@ import 'react-datepicker/dist/react-datepicker.css';
 import Select from 'react-select';
 import '../styles/crearReunion.css';
 import { useAuth0 } from '@auth0/auth0-react';
+import { useNavigate } from 'react-router-dom';
+
 
 
 function CrearReunion() {
 
+  const navigate = useNavigate();
   const { isAuthenticated, user, getAccessTokenSilently } = useAuth0();
 
   const [userObj, setUserObj] = useState({});
@@ -25,7 +28,7 @@ function CrearReunion() {
   if (user) {
     roles = user['https://tgp.me/roles']; // Si no es admin, devuelve un arreglo vacío
     user_metadata = user['https://tgp.me/user_metadata'];
-    console.log('user_metadata: ', user_metadata);
+    // console.log('user_metadata: ', user_metadata);
   }
 
   useEffect(() => {
@@ -45,7 +48,7 @@ function CrearReunion() {
             userObj = { id: user.sub, role: 'CLIENT', email: user.email, name: user.name };
             setUserObj(userObj);
           }
-          console.log('Info del usuario: ', userObj);
+          // console.log('Info del usuario: ', userObj);
         })
         .catch((error) => {
           console.error('Error obteniendo el token', error);
@@ -86,9 +89,14 @@ function CrearReunion() {
         fecha: fechaReunion,
         clientMail: correoContacto,
         userId: userObj.id,
+        // cliente: cliente,
         // Agrega más atributos aquí
       });
-      console.log(response.data);
+      // console.log(response.data);
+      if (response.status === 200) {
+        alert('Reunión creada exitosamente');
+        navigate('/reunion-creada');
+      }
       // Manejar la respuesta o redirigir
     } catch (error) {
       console.error(error);
@@ -96,11 +104,13 @@ function CrearReunion() {
     }
   };
 
+  
+
 
   return (
     <>
     {
-      isAuthenticated && (
+      isAuthenticated && userObj.role === "WORKER" && (
         <div className="form-container">
           <h2 className="text-2xl font-semibold mb-4">Crear Reunión</h2>
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -172,6 +182,14 @@ function CrearReunion() {
               Crear Reunión
             </button>
           </form>
+        </div>
+      )
+    }
+    {
+      isAuthenticated && userObj.role !== "WORKER" && (
+        <div className="tarjeta-profile">
+            <h1>Crear reunión</h1>
+            <p>Tienes que ser un trabajador para crear una reunión</p>
         </div>
       )
     }

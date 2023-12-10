@@ -33,7 +33,7 @@ const ReunionesAgendadas = () => {
         meetingURL = `${backendURL}/client/meetings`;
     }
 
-    console.log('meetingURL: ', meetingURL);
+    // console.log('meetingURL: ', meetingURL);
 
 
     const [reuniones, setReuniones] = useState([]);
@@ -72,7 +72,7 @@ const ReunionesAgendadas = () => {
         },
     ];
 
-    console.log('reuniones: ', reuniones);
+    // console.log('reuniones: ', reuniones);
     // const rows = reuniones.filter((reunion) =>
     //     reunion.cliente.toLowerCase().includes(filtroCliente.toLowerCase())
     // );

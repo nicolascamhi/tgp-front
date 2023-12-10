@@ -110,7 +110,7 @@ function CrearReunion() {
   return (
     <>
     {
-      isAuthenticated && userObj.role === "WORKER" && (
+      isAuthenticated && (userObj.role === "WORKER" || userObj.role === "ADMIN") && (
         <div className="form-container">
           <h2 className="text-2xl font-semibold mb-4">Crear Reunión</h2>
           <form onSubmit={handleSubmit} className="space-y-4">

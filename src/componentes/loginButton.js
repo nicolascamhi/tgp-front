@@ -14,7 +14,7 @@ const LoginButton = () => {
   if (user) {
     roles = user['https://tgp.me/roles']; // Si no es admin, devuelve un arreglo vacío
     user_metadata = user['https://tgp.me/user_metadata'];
-    // console.log('user_metadata: ', user_metadata);
+    console.log('user_metadata: ', user_metadata);
   }
 
   useEffect(() => {
@@ -30,7 +30,7 @@ const LoginButton = () => {
           } else {
             userObj = { id: user.sub, role: 'CLIENT', email: user.email, name: user.name };
           }
-          // console.log('User a enviar al backend: ', userObj);
+          console.log('User a enviar al backend: ', userObj);
           axios
             .post(loginURL, userObj, {
               headers: {
@@ -38,8 +38,8 @@ const LoginButton = () => {
               },
             })
             .then((response) => {
-              // console.log('User enviado al backend');
-              // console.log(response.data);
+              console.log('User enviado al backend');
+              console.log(response.data);
             })
             .catch((error) => {
               console.error('Error al enviar user al backend', error);

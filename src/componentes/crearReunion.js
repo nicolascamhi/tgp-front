@@ -101,7 +101,7 @@ function CrearReunion() {
       // console.log(response.data);
       if (response.status === 200) {
         alert('Reunión creada exitosamente');
-        navigate('/reunion-creada');
+        navigate("/reuniones-agendadas");
       }
       // Manejar la respuesta o redirigir
     } catch (error) {

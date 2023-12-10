@@ -68,9 +68,9 @@ const DetalleReunion = () => {
     const fetchReuniones = async () => {
         try {
             const response = await axios.get(meetingURL, {
-                headers: {
-                    'userId': user.sub,
-                }
+              headers: {
+                Authorization: user.sub,
+              },
             });
             setReuniones(response.data);
         } catch (error) {

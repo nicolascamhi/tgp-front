@@ -5,6 +5,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { useParams, useNavigate } from 'react-router-dom';
 import '../styles/detalleReunion.css';
 import { useAuth0 } from '@auth0/auth0-react';
+import ReunionesAgendadas from './reunionesAgendadas';
 
 
 
@@ -74,9 +75,9 @@ const EditarReunion = () => {
     const fetchReuniones = async () => {
         try {
             const response = await axios.get(meetingURL, {
-                headers: {
-                    'userId': user.sub,
-                }
+              headers: {
+                Authorization: user.sub,
+              },
             });
             setReuniones(response.data);
         } catch (error) {
@@ -87,30 +88,33 @@ const EditarReunion = () => {
     fetchReuniones();
   }, [isAuthenticated, user, getAccessTokenSilently, meetingURL]);
 
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-//     try {
-//       var route = 'http://localhost:3001/meetings';
-//       if (userObj.role === 'ADMIN') {
-//         route = 'http://localhost:3001/admin/meetings';
-//       }
+   const handleSubmit = async (e) => {
+     e.preventDefault();
+     try {
+      var route = `${backendURL}/meetings/${id}`;
+       if (userObj.role === 'ADMIN') {
+         route = `${backendURL}/admin/meetings/${id}`;
+       }
 
-//       const response = await axios.patch(route, {
-//         description: description,
-//         fechaReunion: fechaReunion,
+       const response = await axios.put(route, {
+        headers: {
+          Authorization: user.sub,
+        },
+         description: description,
+         fechaReunion: fechaReunion,
 
-//       });
-//       // console.log(response.data);
-//       if (response.status === 200) {
-//         alert('Reunión creada exitosamente');
-//         navigate('/reunion-creada');
-//       }
-//       // Manejar la respuesta o redirigir
-//     } catch (error) {
-//       console.error(error);
-//       // Manejar el error
-//     }
-//   };
+       });
+       // console.log(response.data);
+       if (response.status === 200) {
+         alert('Reunión editada');
+         navigate("/reuniones-agendadas");
+       }
+       // Manejar la respuesta o redirigir
+     } catch (error) {
+       console.error(error);
+       // Manejar el error
+     }
+   };
 
 
   if (!reuniones) {
@@ -151,7 +155,8 @@ const EditarReunion = () => {
               />
             </div>
 
-            <button className="editar" >Editar</button>
+            <button className="editar" onClick={handleSubmit}>Editar</button>
+            
 
         </div>
         </>

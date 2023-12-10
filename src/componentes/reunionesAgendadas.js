@@ -44,8 +44,8 @@ const ReunionesAgendadas = () => {
             try {
                 const response = await axios.get(meetingURL, {
                     headers: {
-                        'userId': user.sub,
-                    }
+                Authorization: user.sub,
+              },
                 });
                 setReuniones(response.data);
             } catch (error) {
@@ -83,7 +83,7 @@ const ReunionesAgendadas = () => {
     //     reunion.cliente.toLowerCase().includes(filtroCliente.toLowerCase())
     // );
     const rows = reuniones.filter((reunion) =>
-        reunion.clientId.toLowerCase().includes(filtroCliente.toLowerCase())
+        reunion.clientName.toLowerCase().includes(filtroCliente.toLowerCase())
     );
 
     return (

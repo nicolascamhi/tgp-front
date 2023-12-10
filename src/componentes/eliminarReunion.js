@@ -70,9 +70,9 @@ const EliminarReunion = () => {
     const fetchReuniones = async () => {
         try {
             const response = await axios.get(meetingURL, {
-                headers: {
-                    'userId': user.sub,
-                }
+              headers: {
+                Authorization: user.sub,
+              },
             });
             setReuniones(response.data);
         } catch (error) {
@@ -97,7 +97,7 @@ const EliminarReunion = () => {
             'userId': user.sub,
         }
     });
-    navigate('/reunion-eliminada');
+    navigate("/reuniones-agendadas");
       
       // Manejar la respuesta o redirigir
     } catch (error) {

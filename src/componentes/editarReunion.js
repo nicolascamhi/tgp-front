@@ -5,7 +5,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { useParams, useNavigate } from 'react-router-dom';
 import '../styles/detalleReunion.css';
 import { useAuth0 } from '@auth0/auth0-react';
-import ReunionesAgendadas from './reunionesAgendadas';
+// import ReunionesAgendadas from './reunionesAgendadas';
 
 
 

@@ -99,7 +99,7 @@ const ReunionesAgendadas = () => {
         {
             isAuthenticated && (
                 <> 
-                <h1></h1>
+                <br></br>
                 <TextField
                     label="Filtrar por nombre empresa"
                     variant="outlined"

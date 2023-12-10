@@ -3,10 +3,10 @@ import axios from 'axios';
 import '../styles/tarjeta.css';
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
-import { DataGrid } from '@mui/x-data-grid';
-import TextField from '@mui/material/TextField';
+// import { DataGrid } from '@mui/x-data-grid';
+// import TextField from '@mui/material/TextField';
 // import { Button } from '@mui/material';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 // import Tarjeta from './tarjeta.js';
@@ -69,7 +69,7 @@ const Dashboard = () => {
 
 
     const [reuniones, setReuniones] = useState([]);
-    const [filtroCliente, setFiltroCliente] = useState('');
+    // const [filtroCliente, setFiltroCliente] = useState('');
 
     useEffect(() => {
         const fetchReuniones = async () => {

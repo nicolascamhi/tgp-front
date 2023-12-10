@@ -33,7 +33,7 @@ const ReunionesAgendadas = () => {
         meetingURL = `${backendURL}/client/meetings`;
     }
 
-    console.log('meetingURL: ', meetingURL);
+    // console.log('meetingURL: ', meetingURL);
 
 
     const [reuniones, setReuniones] = useState([]);
@@ -44,8 +44,8 @@ const ReunionesAgendadas = () => {
             try {
                 const response = await axios.get(meetingURL, {
                     headers: {
-                        'userId': user.sub,
-                    }
+                Authorization: user.sub,
+              },
                 });
                 setReuniones(response.data);
             } catch (error) {
@@ -60,7 +60,14 @@ const ReunionesAgendadas = () => {
         { field: 'id', headerName: 'ID', width: 100 },
         { field: 'fechaCreacion', headerName: 'Fecha de Creación', width: 200 },
         { field: 'fechaReunion', headerName: 'Fecha de Reunión', width: 200 },
-        { field: 'cliente', headerName: 'Cliente', width: 200 },
+        // { field: 'cliente', headerName: 'Cliente', width: 200 },
+        {
+            field: 'cliente',
+            headerName: 'Cliente',
+            width: 200,
+            valueGetter: (params) => params.row.clientName || 'Sin Cliente',
+          },
+          { field: 'externalName', headerName: 'Empresa externa', width: 200 },
         { field: 'tamanoEmpresa', headerName: 'Tamaño de la Empresa', width: 200 },
         {
         field: 'verDetalle',
@@ -72,22 +79,29 @@ const ReunionesAgendadas = () => {
         },
     ];
 
-    console.log('reuniones: ', reuniones);
+    // console.log('reuniones: ', reuniones);
     // const rows = reuniones.filter((reunion) =>
     //     reunion.cliente.toLowerCase().includes(filtroCliente.toLowerCase())
     // );
-    const rows = reuniones.filter((reunion) =>
-        reunion.clientId.toLowerCase().includes(filtroCliente.toLowerCase())
-    );
+    const rows = reuniones.filter((reunion) => {
+        // Convertir todo a minúsculas para hacer la comparación insensible a mayúsculas
+        const filtroMinuscula = filtroCliente.toLowerCase();
+        const clientNameMinuscula = reunion.clientName.toLowerCase();
+        const externalNameMinuscula = reunion.externalName ? reunion.externalName.toLowerCase() : '';
+    
+        // Comprobar si el filtroCliente coincide con clientName o externalName
+        return clientNameMinuscula.includes(filtroMinuscula) || externalNameMinuscula.includes(filtroMinuscula);
+    });
+    
 
     return (
         <>
         {
             isAuthenticated && (
                 <> 
-                <h1>Reuniones Agendadas</h1>
+                <br></br>
                 <TextField
-                    label="Filtrar por Cliente"
+                    label="Filtrar por nombre empresa"
                     variant="outlined"
                     value={filtroCliente}
                     onChange={(e) => setFiltroCliente(e.target.value)}

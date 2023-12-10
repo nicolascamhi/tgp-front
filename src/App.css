@@ -20,6 +20,11 @@
     padding: 20px;
     width: 300px;
   }
+  .grafico-container {
+    width: 50%; /* Ajusta este valor según tus necesidades */
+    margin: auto; /* Centra el gráfico en el contenedor */
+}
+
 
   
   

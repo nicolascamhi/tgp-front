@@ -5,10 +5,13 @@ import 'react-datepicker/dist/react-datepicker.css';
 import Select from 'react-select';
 import '../styles/crearReunion.css';
 import { useAuth0 } from '@auth0/auth0-react';
+import { useNavigate } from 'react-router-dom';
+
 
 
 function CrearReunion() {
 
+  const navigate = useNavigate();
   const { isAuthenticated, user, getAccessTokenSilently } = useAuth0();
 
   const [userObj, setUserObj] = useState({});
@@ -16,16 +19,19 @@ function CrearReunion() {
   const [fechaReunion, setFechaReunion] = useState(new Date());
   const [cliente, setCliente] = useState('');
   const [tamanoEmpresa, setTamanoEmpresa] = useState(null);
+  const [empresaExterna, setEmpresaExterna] = useState(null);
   const [correoContacto, setCorreoContacto] = useState('');
   const [correoValido, setCorreoValido] = useState(true);
   const [inputTouched, setInputTouched] = useState(false);
+  const [description, setDescription] = useState('Reunión creada desde el frontend');
+
 
   let roles;
   let user_metadata;
   if (user) {
     roles = user['https://tgp.me/roles']; // Si no es admin, devuelve un arreglo vacío
     user_metadata = user['https://tgp.me/user_metadata'];
-    console.log('user_metadata: ', user_metadata);
+    // console.log('user_metadata: ', user_metadata);
   }
 
   useEffect(() => {
@@ -45,7 +51,7 @@ function CrearReunion() {
             userObj = { id: user.sub, role: 'CLIENT', email: user.email, name: user.name };
             setUserObj(userObj);
           }
-          console.log('Info del usuario: ', userObj);
+          // console.log('Info del usuario: ', userObj);
         })
         .catch((error) => {
           console.error('Error obteniendo el token', error);
@@ -68,6 +74,7 @@ function CrearReunion() {
     setCorreoValido(validarCorreo(correo));
   };
 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!fechaCreacion || !fechaReunion || !cliente || !tamanoEmpresa || !correoContacto) {
@@ -82,13 +89,20 @@ function CrearReunion() {
       }
 
       const response = await axios.post(route, {
-        description: 'Reunión creada desde el frontend',
-        fecha: fechaReunion,
+        description: description,
+        fechaCreacion: fechaCreacion,
+        fechaReunion: fechaReunion,
+        tamanoEmpresa: tamanoEmpresa.value,
         clientMail: correoContacto,
         userId: userObj.id,
-        // Agrega más atributos aquí
+        clientName: cliente,
+        externalName: empresaExterna
       });
-      console.log(response.data);
+      // console.log(response.data);
+      if (response.status === 200) {
+        alert('Reunión creada exitosamente');
+        navigate("/reuniones-agendadas");
+      }
       // Manejar la respuesta o redirigir
     } catch (error) {
       console.error(error);
@@ -96,11 +110,13 @@ function CrearReunion() {
     }
   };
 
+  
+
 
   return (
     <>
     {
-      isAuthenticated && (
+      isAuthenticated && (userObj.role === "WORKER" || userObj.role === "ADMIN") && (
         <div className="form-container">
           <h2 className="text-2xl font-semibold mb-4">Crear Reunión</h2>
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -139,6 +155,17 @@ function CrearReunion() {
               />
             </div>
             <div>
+            <div>
+              <label htmlFor="empresaExterna" className="form-label">
+                Empresa Externa:
+              </label>
+              <input
+                type="text"
+                id="empresaExterna"
+                onChange={(e) => setEmpresaExterna(e.target.value)}
+                className="form-input"
+              />
+            </div>
               <label htmlFor="tamanoEmpresa" className="form-label">
                 Tamaño de la Empresa:
               </label>
@@ -168,10 +195,29 @@ function CrearReunion() {
                 <p className="text-red-300">El correo ingresado no es válido.</p>
               )}
             </div>
+            <div>
+              <label htmlFor="cliente" className="form-label">
+                Descripción:
+              </label>
+              <input
+                type="text"
+                id="cliente"
+                onChange={(e) => setDescription(e.target.value)}
+                className="form-input"
+              />
+            </div>
             <button type="submit" className="form-button">
               Crear Reunión
             </button>
           </form>
+        </div>
+      )
+    }
+    {
+      isAuthenticated && userObj.role !== "WORKER" && (
+        <div className="tarjeta-profile">
+            <h1>Crear reunión</h1>
+            <p>Tienes que ser un trabajador para crear una reunión</p>
         </div>
       )
     }
